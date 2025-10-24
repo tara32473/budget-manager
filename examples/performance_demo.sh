@@ -1,6 +1,9 @@
 #!/bin/bash
 # Performance and Scale Testing Demo
 # Demonstrates the application's ability to handle larger datasets
+#
+# Author: tara32473
+# GitHub: https://github.com/tara32473/budget-manager
 
 echo "⚡ Budget Manager - Performance & Scale Demo"
 echo "==========================================="

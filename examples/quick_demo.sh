@@ -1,6 +1,9 @@
 #!/bin/bash
 # Quick Start Demo - Perfect for Live Interviews
 # This script demonstrates the Budget Manager in under 2 minutes
+#
+# Author: tara32473
+# GitHub: https://github.com/tara32473/budget-manager
 
 echo "🚀 Budget Manager - Quick Interview Demo"
 echo "========================================"

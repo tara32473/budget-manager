@@ -3,6 +3,9 @@ Command-line interface for the budget manager application.
 
 This module provides a comprehensive CLI for managing personal finances,
 including transactions, categories, budgets, and generating reports.
+
+Author: tara32473
+GitHub: https://github.com/tara32473/budget-manager
 """
 
 import argparse

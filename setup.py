@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+"""
+Budget Manager - Personal Finance CLI Application
+Author: tara32473
+GitHub: https://github.com/tara32473/budget-manager
+"""
+
 import pathlib
 
 from setuptools import find_packages, setup

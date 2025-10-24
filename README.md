@@ -556,4 +556,12 @@ Future enhancements being considered:
 
 ---
 
+## 👨‍💻 **Author**
+
+**Created by**: [tara32473](https://github.com/tara32473)  
+**Repository**: https://github.com/tara32473/budget-manager  
+**Portfolio**: https://github.com/tara32473  
+
+---
+
 **Happy budgeting! 💰✨**

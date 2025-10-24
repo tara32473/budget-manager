@@ -2,6 +2,9 @@
 
 Welcome to the comprehensive documentation for Budget Manager - a professional personal finance CLI application.
 
+**Author**: tara32473  
+**GitHub**: https://github.com/tara32473/budget-manager
+
 ## 📚 Table of Contents
 
 1. [Getting Started](#getting-started)

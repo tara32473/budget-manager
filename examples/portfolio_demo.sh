@@ -1,6 +1,9 @@
 #!/bin/bash
 # Professional Portfolio Demo Script
 # This script creates a realistic financial scenario for demonstration purposes
+#
+# Author: tara32473
+# GitHub: https://github.com/tara32473/budget-manager
 
 echo "🎯 Budget Manager - Professional Portfolio Demo"
 echo "=============================================="
