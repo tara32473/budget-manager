@@ -1,5 +1,6 @@
-from setuptools import setup, find_packages
 import pathlib
+
+from setuptools import find_packages, setup
 
 here = pathlib.Path(__file__).parent.resolve()
 
@@ -12,9 +13,9 @@ setup(
     description="A comprehensive command-line personal finance management tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/your-username/budget-manager",
-    author="Your Name",
-    author_email="your.email@example.com",
+    url="https://github.com/tara32473/budget-manager",
+    author="tara32473",
+    author_email="",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",

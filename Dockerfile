@@ -15,14 +15,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
-COPY requirements.txt pyproject.toml setup.py ./
+# Copy requirements and source files first
+COPY requirements.txt pyproject.toml setup.py README.md ./
 COPY src/ ./src/
 
 # Install Python dependencies
 RUN pip install -e .
 
-# Copy application code
+# Copy remaining application files
 COPY . .
 
 # Create non-root user for security
