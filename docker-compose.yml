@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  budget-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: budget-manager
+    volumes:
+      - budget_data:/app/data
+      - ./examples:/app/examples:ro
+    environment:
+      - BUDGET_DB_PATH=/app/data/budget_manager.db
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+  # Development service with source code mounted
+  budget-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: budget-manager-dev
+    volumes:
+      - .:/app
+      - budget_dev_data:/app/data
+    environment:
+      - BUDGET_DB_PATH=/app/data/budget_manager.db
+      - PYTHONPATH=/app/src
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    profiles:
+      - dev
+
+volumes:
+  budget_data:
+    name: budget_manager_data
+  budget_dev_data:
+    name: budget_manager_dev_data

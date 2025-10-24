@@ -1,0 +1,11 @@
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+recursive-include src/budget_manager *.py
+recursive-include tests *.py
+recursive-include data *.db
+include budget
+include demo.sh
+global-exclude *.pyc
+global-exclude __pycache__

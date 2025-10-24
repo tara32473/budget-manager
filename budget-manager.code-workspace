@@ -1,0 +1,34 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "/home/codespace/.python/current/bin/python",
+        "python.analysis.extraPaths": [
+            "./src"
+        ],
+        "python.analysis.autoSearchPaths": true,
+        "python.terminal.activateEnvironment": true,
+        "files.exclude": {
+            "**/__pycache__": true,
+            "**/*.pyc": true,
+            "**/.pytest_cache": true,
+            "**/.mypy_cache": true,
+            "**/build": true,
+            "**/dist": true,
+            "**/*.egg-info": true
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-python.python",
+            "ms-python.vscode-pylance",
+            "ms-python.debugpy",
+            "ms-python.black-formatter",
+            "ms-python.isort",
+            "ms-python.flake8"
+        ]
+    }
+}

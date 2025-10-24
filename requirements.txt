@@ -1,0 +1,23 @@
+# Budget Manager Requirements
+# Core dependencies for the budget manager application
+
+# Data handling
+decimal>=1.70
+
+# Database (SQLite is built into Python, no additional dependency needed)
+
+# Date/time handling (datetime is built into Python)
+
+# Command line interface (argparse is built into Python)
+
+# File operations and JSON (built into Python)
+
+# For development and testing (optional)
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=22.0.0
+flake8>=5.0.0
+
+# For enhanced CLI experience (optional)
+colorama>=0.4.4
+tabulate>=0.9.0

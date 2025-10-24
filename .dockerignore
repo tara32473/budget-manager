@@ -1,0 +1,82 @@
+# Docker ignore file
+# Excludes files and directories from Docker build context
+
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.hypothesis/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation build
+docs/_build/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Database files (except sample data)
+data/*.db
+!data/sample.db
+
+# Logs
+*.log
+logs/
+
+# Development files
+.pre-commit-config.yaml
+Makefile
+docker-compose.override.yml
