@@ -1,0 +1,50 @@
+theme: minima
+title: Budget Manager
+description: Professional Personal Finance CLI Application
+url: "https://tara32473.github.io"
+baseurl: "/budget-manager"
+
+# Author information
+author:
+  name: tara32473
+  email:
+
+# Social links
+github_username: tara32473
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Navigation
+navigation:
+  - title: "Home"
+    url: "/"
+  - title: "Documentation"
+    url: "/docs/"
+  - title: "Examples"
+    url: "/examples/"
+  - title: "Contributing"
+    url: "/CONTRIBUTING/"
+  - title: "GitHub"
+    url: "https://github.com/tara32473/budget-manager"
+
+# Exclude from processing
+exclude:
+  - vendor/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
