@@ -556,11 +556,20 @@ Future enhancements being considered:
 
 ---
 
-## 👨‍💻 **Author**
+## 👨‍💻 **Author & Attribution**
 
-**Created by**: [tara32473](https://github.com/tara32473)  
-**Repository**: https://github.com/tara32473/budget-manager  
-**Portfolio**: https://github.com/tara32473  
+**Created by**: [tara32473](https://github.com/tara32473) - Professional Software Engineer
+
+### 📂 **Portfolio Context**
+This project is part of a comprehensive professional portfolio showcasing enterprise-grade development practices.
+
+- **Portfolio Overview**: See [Portfolio README](../README.md) for all projects
+- **Author Information**: See [AUTHORS](../AUTHORS.md) for detailed attribution
+- **This Repository**: https://github.com/tara32473/budget-manager
+- **Full Portfolio**: https://github.com/tara32473
+
+### 🏷️ **Project Attribution**
+All code, documentation, and assets in this project are the original work of **tara32473**. See [COPYRIGHT.md](COPYRIGHT.md) for detailed attribution information.
 
 ---
 
