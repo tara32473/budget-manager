@@ -111,34 +111,34 @@ class TestBudget(unittest.TestCase):
         """Test that end_date is calculated correctly based on period."""
         start_date = datetime(2024, 1, 15)
 
-        # Monthly budget
+        # Monthly budget - should end one month from start (Feb 14, 23:59:59.999999)
         monthly_budget = Budget(
             category_id="test",
             amount=Decimal("100.00"),
             period="monthly",
             start_date=start_date,
         )
-        expected_end = datetime(2024, 2, 1)
+        expected_end = datetime(2024, 2, 14, 23, 59, 59, 999999)
         self.assertEqual(monthly_budget.end_date, expected_end)
 
-        # Weekly budget
+        # Weekly budget - should end 7 days from start (Jan 21, 23:59:59.999999)
         weekly_budget = Budget(
             category_id="test",
             amount=Decimal("100.00"),
             period="weekly",
             start_date=start_date,
         )
-        expected_end = datetime(2024, 1, 22)
+        expected_end = datetime(2024, 1, 21, 23, 59, 59, 999999)
         self.assertEqual(weekly_budget.end_date, expected_end)
 
-        # Yearly budget
+        # Yearly budget - should end one year from start (Jan 14, 23:59:59.999999 next year)
         yearly_budget = Budget(
             category_id="test",
             amount=Decimal("1000.00"),
             period="yearly",
             start_date=start_date,
         )
-        expected_end = datetime(2025, 1, 1)
+        expected_end = datetime(2025, 1, 14, 23, 59, 59, 999999)
         self.assertEqual(yearly_budget.end_date, expected_end)
 
 
