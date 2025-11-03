@@ -25,8 +25,22 @@ def adapt_datetime_iso(val):
 
 
 def convert_datetime(val):
-    """Convert ISO 8601 datetime to datetime.datetime object."""
-    return datetime.fromisoformat(val.decode())
+    """
+    Convert ISO 8601 datetime to datetime.datetime object.
+
+    Args:
+        val: Bytes containing ISO 8601 formatted datetime string
+
+    Returns:
+        datetime object
+
+    Raises:
+        ValueError: If the datetime format is invalid
+    """
+    try:
+        return datetime.fromisoformat(val.decode())
+    except (ValueError, AttributeError) as e:
+        raise ValueError(f"Invalid datetime format in database: {val}") from e
 
 
 def parse_datetime(val):
@@ -64,7 +78,12 @@ class DatabaseManager:
 
     @contextmanager
     def get_connection(self):
-        """Context manager for database connections."""
+        """
+        Context manager for database connections.
+
+        Uses detect_types parameter to enable automatic datetime parsing
+        for Python 3.12+ compatibility, eliminating deprecation warnings.
+        """
         conn = sqlite3.connect(
             self.db_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
         )
