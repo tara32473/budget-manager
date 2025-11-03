@@ -1,2 +1,0 @@
-[console_scripts]
-budget = budget_manager.cli:main
