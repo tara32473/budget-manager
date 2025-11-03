@@ -12,7 +12,7 @@ GitHub: https://github.com/tara32473/budget-manager
 
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import Enum
 from typing import Optional
@@ -85,8 +85,6 @@ class Budget:
 
         # Set default end_date based on period if not provided
         if not self.end_date:
-            from datetime import timedelta
-
             if self.period == "monthly":
                 # Set to one month from start_date
                 # Calculate the same day next month
