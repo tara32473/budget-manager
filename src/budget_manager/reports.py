@@ -65,18 +65,14 @@ class ReportGenerator:
                 spending_by_category.items(), key=lambda x: x[1], reverse=True
             ):
                 if amount > 0:
-                    percentage = (
-                        (amount / total_spending * 100) if total_spending > 0 else 0
-                    )
+                    percentage = (amount / total_spending * 100) if total_spending > 0 else 0
                     print(f"  {category:<20} ${amount:>8.2f} ({percentage:>5.1f}%)")
 
         # Budget performance
         self._show_budget_performance(start_date, end_date)
 
         # Transaction count
-        transactions = self.db.get_transactions(
-            start_date=start_date, end_date=end_date
-        )
+        transactions = self.db.get_transactions(start_date=start_date, end_date=end_date)
         income_count = len(
             [t for t in transactions if t.transaction_type == TransactionType.INCOME]
         )
@@ -161,15 +157,13 @@ class ReportGenerator:
         if spending_by_category:
             print(f"\n📈 Top Spending Categories:")
             total_spending = sum(spending_by_category.values())
-            top_categories = sorted(
-                spending_by_category.items(), key=lambda x: x[1], reverse=True
-            )[:10]
+            top_categories = sorted(spending_by_category.items(), key=lambda x: x[1], reverse=True)[
+                :10
+            ]
 
             for category, amount in top_categories:
                 if amount > 0:
-                    percentage = (
-                        (amount / total_spending * 100) if total_spending > 0 else 0
-                    )
+                    percentage = (amount / total_spending * 100) if total_spending > 0 else 0
                     print(f"  {category:<25} ${amount:>10.2f} ({percentage:>5.1f}%)")
 
         # Calculate averages
@@ -238,9 +232,7 @@ class ReportGenerator:
             categories = {c.id: c.name for c in self.db.get_all_categories()}
             for trans in recent_transactions:
                 category_name = (
-                    categories.get(trans.category_id, "N/A")
-                    if trans.category_id
-                    else "N/A"
+                    categories.get(trans.category_id, "N/A") if trans.category_id else "N/A"
                 )
                 print(
                     f"  {trans.date.strftime('%m/%d')} "
@@ -270,18 +262,14 @@ class ReportGenerator:
             end_date = datetime.now()
 
         print(f"\n📊 Custom Report")
-        print(
-            f"Period: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
-        )
+        print(f"Period: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
         if category_name:
             print(f"Category: {category_name}")
         print("=" * 60)
 
         category_id = None
         if category_name:
-            categories = [
-                c for c in self.db.get_all_categories() if c.name == category_name
-            ]
+            categories = [c for c in self.db.get_all_categories() if c.name == category_name]
             if not categories:
                 print(f"Category '{category_name}' not found.")
                 return {}
@@ -295,14 +283,10 @@ class ReportGenerator:
             )
 
             total_income = sum(
-                t.amount
-                for t in transactions
-                if t.transaction_type == TransactionType.INCOME
+                t.amount for t in transactions if t.transaction_type == TransactionType.INCOME
             )
             total_expense = sum(
-                t.amount
-                for t in transactions
-                if t.transaction_type == TransactionType.EXPENSE
+                t.amount for t in transactions if t.transaction_type == TransactionType.EXPENSE
             )
             net = total_income - total_expense
 
@@ -320,9 +304,7 @@ class ReportGenerator:
             print(f"  Net:      ${income_expense['net']:>10.2f}")
 
             # Category breakdown
-            spending_by_category = self.db.get_spending_by_category(
-                start_date, end_date
-            )
+            spending_by_category = self.db.get_spending_by_category(start_date, end_date)
             if spending_by_category:
                 print(f"\n📈 Spending by Category:")
                 total_spending = sum(spending_by_category.values())
@@ -330,9 +312,7 @@ class ReportGenerator:
                     spending_by_category.items(), key=lambda x: x[1], reverse=True
                 ):
                     if amount > 0:
-                        percentage = (
-                            (amount / total_spending * 100) if total_spending > 0 else 0
-                        )
+                        percentage = (amount / total_spending * 100) if total_spending > 0 else 0
                         print(f"  {category:<20} ${amount:>8.2f} ({percentage:>5.1f}%)")
 
         # Transaction details
@@ -400,9 +380,7 @@ class ReportGenerator:
 
         categories = {c.id: c.name for c in self.db.get_all_categories()}
 
-        print(
-            f"  {'Category':<15} {'Budget':<10} {'Spent':<10} {'Remaining':<12} {'Status':<12}"
-        )
+        print(f"  {'Category':<15} {'Budget':<10} {'Spent':<10} {'Remaining':<12} {'Status':<12}")
         print("  " + "-" * 65)
 
         for budget in relevant_budgets:

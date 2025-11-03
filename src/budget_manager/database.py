@@ -18,6 +18,44 @@ from typing import Any, Dict, List, Optional
 from .models import Budget, BudgetSummary, Category, Transaction, TransactionType
 
 
+# Register datetime adapters and converters for Python 3.12+ compatibility
+def adapt_datetime_iso(val):
+    """Adapt datetime.datetime to ISO 8601 date."""
+    return val.isoformat()
+
+
+def convert_datetime(val):
+    """
+    Convert ISO 8601 datetime to datetime.datetime object.
+
+    Args:
+        val: Bytes containing ISO 8601 formatted datetime string
+
+    Returns:
+        datetime object
+
+    Raises:
+        ValueError: If the datetime format is invalid
+    """
+    try:
+        return datetime.fromisoformat(val.decode())
+    except (ValueError, AttributeError) as e:
+        raise ValueError(f"Invalid datetime format in database: {val}") from e
+
+
+def parse_datetime(val):
+    """Parse datetime value from database, handling both string and datetime objects."""
+    if isinstance(val, datetime):
+        return val
+    elif isinstance(val, str):
+        return datetime.fromisoformat(val)
+    return val
+
+
+sqlite3.register_adapter(datetime, adapt_datetime_iso)
+sqlite3.register_converter("timestamp", convert_datetime)
+
+
 class DatabaseManager:
     """Manages database connections and operations."""
 
@@ -40,8 +78,15 @@ class DatabaseManager:
 
     @contextmanager
     def get_connection(self):
-        """Context manager for database connections."""
-        conn = sqlite3.connect(self.db_path)
+        """
+        Context manager for database connections.
+
+        Uses detect_types parameter to enable automatic datetime parsing
+        for Python 3.12+ compatibility, eliminating deprecation warnings.
+        """
+        conn = sqlite3.connect(
+            self.db_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
+        )
         conn.row_factory = sqlite3.Row  # Enable dict-like access to rows
         try:
             yield conn
@@ -101,9 +146,7 @@ class DatabaseManager:
             )
 
             # Create indices for better performance
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_transactions_date ON transactions(date)"
-            )
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_transactions_date ON transactions(date)")
             cursor.execute(
                 "CREATE INDEX IF NOT EXISTS idx_transactions_category ON transactions(category_id)"
             )
@@ -152,7 +195,7 @@ class DatabaseManager:
                     name=row["name"],
                     description=row["description"],
                     color=row["color"],
-                    created_at=datetime.fromisoformat(row["created_at"]),
+                    created_at=parse_datetime(row["created_at"]),
                 )
             return None
 
@@ -168,7 +211,7 @@ class DatabaseManager:
                     name=row["name"],
                     description=row["description"],
                     color=row["color"],
-                    created_at=datetime.fromisoformat(row["created_at"]),
+                    created_at=parse_datetime(row["created_at"]),
                 )
                 for row in rows
             ]
@@ -234,8 +277,8 @@ class DatabaseManager:
                     description=row["description"],
                     category_id=row["category_id"],
                     transaction_type=TransactionType(row["transaction_type"]),
-                    date=datetime.fromisoformat(row["date"]),
-                    created_at=datetime.fromisoformat(row["created_at"]),
+                    date=parse_datetime(row["date"]),
+                    created_at=parse_datetime(row["created_at"]),
                     notes=row["notes"],
                 )
             return None
@@ -286,8 +329,8 @@ class DatabaseManager:
                     description=row["description"],
                     category_id=row["category_id"],
                     transaction_type=TransactionType(row["transaction_type"]),
-                    date=datetime.fromisoformat(row["date"]),
-                    created_at=datetime.fromisoformat(row["created_at"]),
+                    date=parse_datetime(row["date"]),
+                    created_at=parse_datetime(row["created_at"]),
                     notes=row["notes"],
                 )
                 for row in rows
@@ -362,20 +405,14 @@ class DatabaseManager:
                     category_id=row["category_id"],
                     amount=Decimal(str(row["amount"])),
                     period=row["period"],
-                    start_date=datetime.fromisoformat(row["start_date"]),
-                    end_date=(
-                        datetime.fromisoformat(row["end_date"])
-                        if row["end_date"]
-                        else None
-                    ),
-                    created_at=datetime.fromisoformat(row["created_at"]),
+                    start_date=parse_datetime(row["start_date"]),
+                    end_date=(parse_datetime(row["end_date"]) if row["end_date"] else None),
+                    created_at=parse_datetime(row["created_at"]),
                     is_active=bool(row["is_active"]),
                 )
             return None
 
-    def get_budgets(
-        self, category_id: str = None, is_active: bool = True
-    ) -> List[Budget]:
+    def get_budgets(self, category_id: str = None, is_active: bool = True) -> List[Budget]:
         """Get budgets with optional filters."""
         with self.get_connection() as conn:
             cursor = conn.cursor()
@@ -402,13 +439,9 @@ class DatabaseManager:
                     category_id=row["category_id"],
                     amount=Decimal(str(row["amount"])),
                     period=row["period"],
-                    start_date=datetime.fromisoformat(row["start_date"]),
-                    end_date=(
-                        datetime.fromisoformat(row["end_date"])
-                        if row["end_date"]
-                        else None
-                    ),
-                    created_at=datetime.fromisoformat(row["created_at"]),
+                    start_date=parse_datetime(row["start_date"]),
+                    end_date=(parse_datetime(row["end_date"]) if row["end_date"] else None),
+                    created_at=parse_datetime(row["created_at"]),
                     is_active=bool(row["is_active"]),
                 )
                 for row in rows
