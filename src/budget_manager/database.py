@@ -127,9 +127,7 @@ class DatabaseManager:
             )
 
             # Create indices for better performance
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_transactions_date ON transactions(date)"
-            )
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_transactions_date ON transactions(date)")
             cursor.execute(
                 "CREATE INDEX IF NOT EXISTS idx_transactions_category ON transactions(category_id)"
             )
@@ -389,19 +387,13 @@ class DatabaseManager:
                     amount=Decimal(str(row["amount"])),
                     period=row["period"],
                     start_date=parse_datetime(row["start_date"]),
-                    end_date=(
-                        parse_datetime(row["end_date"])
-                        if row["end_date"]
-                        else None
-                    ),
+                    end_date=(parse_datetime(row["end_date"]) if row["end_date"] else None),
                     created_at=parse_datetime(row["created_at"]),
                     is_active=bool(row["is_active"]),
                 )
             return None
 
-    def get_budgets(
-        self, category_id: str = None, is_active: bool = True
-    ) -> List[Budget]:
+    def get_budgets(self, category_id: str = None, is_active: bool = True) -> List[Budget]:
         """Get budgets with optional filters."""
         with self.get_connection() as conn:
             cursor = conn.cursor()
@@ -429,11 +421,7 @@ class DatabaseManager:
                     amount=Decimal(str(row["amount"])),
                     period=row["period"],
                     start_date=parse_datetime(row["start_date"]),
-                    end_date=(
-                        parse_datetime(row["end_date"])
-                        if row["end_date"]
-                        else None
-                    ),
+                    end_date=(parse_datetime(row["end_date"]) if row["end_date"] else None),
                     created_at=parse_datetime(row["created_at"]),
                     is_active=bool(row["is_active"]),
                 )

@@ -85,9 +85,7 @@ class TestBudget(unittest.TestCase):
 
     def test_create_budget(self):
         """Test creating a valid budget."""
-        budget = Budget(
-            category_id="test-category-id", amount=Decimal("500.00"), period="monthly"
-        )
+        budget = Budget(category_id="test-category-id", amount=Decimal("500.00"), period="monthly")
         self.assertEqual(budget.category_id, "test-category-id")
         self.assertEqual(budget.amount, Decimal("500.00"))
         self.assertEqual(budget.period, "monthly")
@@ -149,9 +147,7 @@ class TestBudgetSummary(unittest.TestCase):
         """Test that budget summary calculations are correct."""
         budget = Budget(category_id="test", amount=Decimal("100.00"), period="monthly")
 
-        summary = BudgetSummary(
-            budget=budget, spent_amount=Decimal("75.00"), transaction_count=5
-        )
+        summary = BudgetSummary(budget=budget, spent_amount=Decimal("75.00"), transaction_count=5)
 
         self.assertEqual(summary.remaining_amount, Decimal("25.00"))
         self.assertEqual(summary.percentage_used, 75.0)

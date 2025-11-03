@@ -92,9 +92,7 @@ class Budget:
                         year=self.start_date.year + 1, month=1, day=1
                     )
                 else:
-                    self.end_date = self.start_date.replace(
-                        month=self.start_date.month + 1, day=1
-                    )
+                    self.end_date = self.start_date.replace(month=self.start_date.month + 1, day=1)
             elif self.period == "weekly":
                 # Set to 7 days from start
                 from datetime import timedelta

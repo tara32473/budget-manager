@@ -57,9 +57,7 @@ Examples:
         )
 
         # Add version argument
-        parser.add_argument(
-            "--version", action="version", version="Budget Manager 1.0.0"
-        )
+        parser.add_argument("--version", action="version", version="Budget Manager 1.0.0")
 
         subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
@@ -109,63 +107,39 @@ Examples:
     def _add_transaction_commands(self, subparsers):
         """Add transaction-related commands."""
         # Add transaction
-        add_trans = subparsers.add_parser(
-            "add-transaction", help="Add a new transaction"
-        )
-        add_trans.add_argument(
-            "-a", "--amount", required=True, type=str, help="Transaction amount"
-        )
-        add_trans.add_argument(
-            "-d", "--description", required=True, help="Transaction description"
-        )
+        add_trans = subparsers.add_parser("add-transaction", help="Add a new transaction")
+        add_trans.add_argument("-a", "--amount", required=True, type=str, help="Transaction amount")
+        add_trans.add_argument("-d", "--description", required=True, help="Transaction description")
         add_trans.add_argument("-c", "--category", help="Category name")
-        add_trans.add_argument(
-            "type", choices=["income", "expense"], help="Transaction type"
-        )
+        add_trans.add_argument("type", choices=["income", "expense"], help="Transaction type")
         add_trans.add_argument("--date", help="Transaction date (YYYY-MM-DD)")
         add_trans.add_argument("--notes", help="Additional notes")
         add_trans.set_defaults(func=self.add_transaction)
 
         # List transactions
-        list_trans = subparsers.add_parser(
-            "list-transactions", help="List transactions"
-        )
+        list_trans = subparsers.add_parser("list-transactions", help="List transactions")
         list_trans.add_argument("--category", help="Filter by category name")
-        list_trans.add_argument(
-            "--type", choices=["income", "expense"], help="Filter by type"
-        )
-        list_trans.add_argument(
-            "--limit", type=int, default=20, help="Limit number of results"
-        )
-        list_trans.add_argument(
-            "--last-week", action="store_true", help="Show last week only"
-        )
-        list_trans.add_argument(
-            "--last-month", action="store_true", help="Show last month only"
-        )
+        list_trans.add_argument("--type", choices=["income", "expense"], help="Filter by type")
+        list_trans.add_argument("--limit", type=int, default=20, help="Limit number of results")
+        list_trans.add_argument("--last-week", action="store_true", help="Show last week only")
+        list_trans.add_argument("--last-month", action="store_true", help="Show last month only")
         list_trans.add_argument("--start-date", help="Start date (YYYY-MM-DD)")
         list_trans.add_argument("--end-date", help="End date (YYYY-MM-DD)")
         list_trans.set_defaults(func=self.list_transactions)
 
         # Update transaction
-        update_trans = subparsers.add_parser(
-            "update-transaction", help="Update a transaction"
-        )
+        update_trans = subparsers.add_parser("update-transaction", help="Update a transaction")
         update_trans.add_argument("transaction_id", help="Transaction ID")
         update_trans.add_argument("--amount", type=str, help="New amount")
         update_trans.add_argument("--description", help="New description")
         update_trans.add_argument("--category", help="New category name")
-        update_trans.add_argument(
-            "--type", choices=["income", "expense"], help="New type"
-        )
+        update_trans.add_argument("--type", choices=["income", "expense"], help="New type")
         update_trans.add_argument("--date", help="New date (YYYY-MM-DD)")
         update_trans.add_argument("--notes", help="New notes")
         update_trans.set_defaults(func=self.update_transaction)
 
         # Delete transaction
-        del_trans = subparsers.add_parser(
-            "delete-transaction", help="Delete a transaction"
-        )
+        del_trans = subparsers.add_parser("delete-transaction", help="Delete a transaction")
         del_trans.add_argument("transaction_id", help="Transaction ID to delete")
         del_trans.add_argument(
             "--force", action="store_true", help="Force deletion without confirmation"
@@ -175,9 +149,7 @@ Examples:
     def _add_budget_commands(self, subparsers):
         """Add budget-related commands."""
         # Set budget
-        set_budget = subparsers.add_parser(
-            "set-budget", help="Set a budget for a category"
-        )
+        set_budget = subparsers.add_parser("set-budget", help="Set a budget for a category")
         set_budget.add_argument("category", help="Category name")
         set_budget.add_argument("amount", type=str, help="Budget amount")
         set_budget.add_argument(
@@ -199,9 +171,7 @@ Examples:
         list_budgets.set_defaults(func=self.list_budgets)
 
         # Budget status
-        budget_status = subparsers.add_parser(
-            "budget-status", help="Show budget status"
-        )
+        budget_status = subparsers.add_parser("budget-status", help="Show budget status")
         budget_status.add_argument("--category", help="Specific category")
         budget_status.set_defaults(func=self.budget_status)
 
@@ -222,12 +192,8 @@ Examples:
             choices=["monthly", "yearly", "custom", "summary"],
             help="Report type",
         )
-        report.add_argument(
-            "--start-date", help="Start date for custom report (YYYY-MM-DD)"
-        )
-        report.add_argument(
-            "--end-date", help="End date for custom report (YYYY-MM-DD)"
-        )
+        report.add_argument("--start-date", help="Start date for custom report (YYYY-MM-DD)")
+        report.add_argument("--end-date", help="End date for custom report (YYYY-MM-DD)")
         report.add_argument("--category", help="Filter by category")
         report.add_argument("--export", choices=["csv", "json"], help="Export format")
         report.add_argument("--output", help="Output file path")
@@ -237,9 +203,7 @@ Examples:
     def add_category(self, args):
         """Add a new category."""
         try:
-            category = Category(
-                name=args.name, description=args.description, color=args.color
-            )
+            category = Category(name=args.name, description=args.description, color=args.color)
             category_id = self.db.create_category(category)
             print(f"✓ Category '{args.name}' created successfully (ID: {category_id})")
         except ValueError as e:
@@ -258,9 +222,7 @@ Examples:
             desc = cat.description or ""
             if len(desc) > 37:
                 desc = desc[:34] + "..."
-            print(
-                f"{cat.name:<20} {desc:<40} {cat.created_at.strftime('%Y-%m-%d %H:%M'):<20}"
-            )
+            print(f"{cat.name:<20} {desc:<40} {cat.created_at.strftime('%Y-%m-%d %H:%M'):<20}")
 
     def update_category(self, args):
         """Update an existing category."""
@@ -313,9 +275,7 @@ Examples:
 
         category_id = None
         if args.category:
-            categories = [
-                c for c in self.db.get_all_categories() if c.name == args.category
-            ]
+            categories = [c for c in self.db.get_all_categories() if c.name == args.category]
             if not categories:
                 print(f"Category '{args.category}' not found.")
                 return
@@ -347,9 +307,7 @@ Examples:
         """List transactions with filters."""
         category_id = None
         if args.category:
-            categories = [
-                c for c in self.db.get_all_categories() if c.name == args.category
-            ]
+            categories = [c for c in self.db.get_all_categories() if c.name == args.category]
             if not categories:
                 print(f"Category '{args.category}' not found.")
                 return
@@ -371,17 +329,13 @@ Examples:
                 try:
                     start_date = datetime.strptime(args.start_date, "%Y-%m-%d")
                 except ValueError:
-                    print(
-                        f"Error: Invalid start date format '{args.start_date}'. Use YYYY-MM-DD."
-                    )
+                    print(f"Error: Invalid start date format '{args.start_date}'. Use YYYY-MM-DD.")
                     return
             if args.end_date:
                 try:
                     end_date = datetime.strptime(args.end_date, "%Y-%m-%d")
                 except ValueError:
-                    print(
-                        f"Error: Invalid end date format '{args.end_date}'. Use YYYY-MM-DD."
-                    )
+                    print(f"Error: Invalid end date format '{args.end_date}'. Use YYYY-MM-DD.")
                     return
 
         transactions = self.db.get_transactions(
@@ -405,9 +359,7 @@ Examples:
         print("-" * 95)
 
         for trans in transactions:
-            category_name = (
-                categories.get(trans.category_id, "N/A") if trans.category_id else "N/A"
-            )
+            category_name = categories.get(trans.category_id, "N/A") if trans.category_id else "N/A"
             if len(category_name) > 12:
                 category_name = category_name[:9] + "..."
 
@@ -445,9 +397,7 @@ Examples:
             transaction.description = args.description
 
         if args.category:
-            categories = [
-                c for c in self.db.get_all_categories() if c.name == args.category
-            ]
+            categories = [c for c in self.db.get_all_categories() if c.name == args.category]
             if not categories:
                 print(f"Category '{args.category}' not found.")
                 return
@@ -493,9 +443,7 @@ Examples:
     # Budget command implementations
     def set_budget(self, args):
         """Set a budget for a category."""
-        categories = [
-            c for c in self.db.get_all_categories() if c.name == args.category
-        ]
+        categories = [c for c in self.db.get_all_categories() if c.name == args.category]
         if not categories:
             print(f"Category '{args.category}' not found.")
             return
@@ -511,9 +459,7 @@ Examples:
             try:
                 start_date = datetime.strptime(args.start_date, "%Y-%m-%d")
             except ValueError:
-                print(
-                    f"Error: Invalid date format '{args.start_date}'. Use YYYY-MM-DD."
-                )
+                print(f"Error: Invalid date format '{args.start_date}'. Use YYYY-MM-DD.")
                 return
 
         try:
@@ -533,9 +479,7 @@ Examples:
         """List all budgets."""
         category_id = None
         if args.category:
-            categories = [
-                c for c in self.db.get_all_categories() if c.name == args.category
-            ]
+            categories = [c for c in self.db.get_all_categories() if c.name == args.category]
             if not categories:
                 print(f"Category '{args.category}' not found.")
                 return
@@ -578,9 +522,7 @@ Examples:
         """Show budget status with spending analysis."""
         category_id = None
         if args.category:
-            categories = [
-                c for c in self.db.get_all_categories() if c.name == args.category
-            ]
+            categories = [c for c in self.db.get_all_categories() if c.name == args.category]
             if not categories:
                 print(f"Category '{args.category}' not found.")
                 return
