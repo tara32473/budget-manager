@@ -12,7 +12,7 @@ GitHub: https://github.com/tara32473/budget-manager
 
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import Enum
 from typing import Optional
@@ -86,25 +86,28 @@ class Budget:
         # Set default end_date based on period if not provided
         if not self.end_date:
             if self.period == "monthly":
-                # Set to end of the month
+                # Set to one month from start_date
+                # Calculate the same day next month
                 if self.start_date.month == 12:
-                    self.end_date = self.start_date.replace(
-                        year=self.start_date.year + 1, month=1, day=1
+                    end_month = self.start_date.replace(
+                        year=self.start_date.year + 1, month=1
                     )
                 else:
-                    self.end_date = self.start_date.replace(
-                        month=self.start_date.month + 1, day=1
+                    end_month = self.start_date.replace(
+                        month=self.start_date.month + 1
                     )
+                # Set end_date to just before the start of the next period
+                self.end_date = end_month - timedelta(microseconds=1)
             elif self.period == "weekly":
-                # Set to 7 days from start
-                from datetime import timedelta
-
-                self.end_date = self.start_date + timedelta(days=7)
+                # Set to 7 days from start (minus one microsecond to be inclusive)
+                self.end_date = self.start_date + timedelta(days=7) - timedelta(microseconds=1)
             elif self.period == "yearly":
-                # Set to end of the year
-                self.end_date = self.start_date.replace(
-                    year=self.start_date.year + 1, month=1, day=1
+                # Set to one year from start_date
+                next_year = self.start_date.replace(
+                    year=self.start_date.year + 1
                 )
+                # Subtract one microsecond to get the last moment of the period
+                self.end_date = next_year - timedelta(microseconds=1)
 
 
 @dataclass

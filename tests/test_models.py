@@ -6,7 +6,7 @@ GitHub: https://github.com/tara32473/budget-manager
 """
 
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 
 from budget_manager.models import (
@@ -111,34 +111,34 @@ class TestBudget(unittest.TestCase):
         """Test that end_date is calculated correctly based on period."""
         start_date = datetime(2024, 1, 15)
 
-        # Monthly budget
+        # Monthly budget - should end one month from start minus 1 microsecond
         monthly_budget = Budget(
             category_id="test",
             amount=Decimal("100.00"),
             period="monthly",
             start_date=start_date,
         )
-        expected_end = datetime(2024, 2, 1)
+        expected_end = datetime(2024, 2, 15) - timedelta(microseconds=1)
         self.assertEqual(monthly_budget.end_date, expected_end)
 
-        # Weekly budget
+        # Weekly budget - should end 7 days from start minus 1 microsecond
         weekly_budget = Budget(
             category_id="test",
             amount=Decimal("100.00"),
             period="weekly",
             start_date=start_date,
         )
-        expected_end = datetime(2024, 1, 22)
+        expected_end = start_date + timedelta(days=7) - timedelta(microseconds=1)
         self.assertEqual(weekly_budget.end_date, expected_end)
 
-        # Yearly budget
+        # Yearly budget - should end one year from start minus 1 microsecond
         yearly_budget = Budget(
             category_id="test",
             amount=Decimal("1000.00"),
             period="yearly",
             start_date=start_date,
         )
-        expected_end = datetime(2025, 1, 1)
+        expected_end = datetime(2025, 1, 15) - timedelta(microseconds=1)
         self.assertEqual(yearly_budget.end_date, expected_end)
 
 
