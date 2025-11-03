@@ -231,30 +231,31 @@ class TestDatabaseManager(unittest.TestCase):
     
     def test_budget_summary(self):
         """Test budget summary calculation."""
-        # Create budget
+        # Create budget starting 10 days ago to ensure transactions are within period
+        budget_start = datetime.now() - timedelta(days=10)
         budget = Budget(
             category_id=self.category_id,
             amount=Decimal('100.00'),
             period="monthly",
-            start_date=datetime.now() - timedelta(days=5)
+            start_date=budget_start
         )
         budget_id = self.db.create_budget(budget)
         budget = self.db.get_budget(budget_id)
         
-        # Create some transactions
+        # Create some transactions within the budget period
         t1 = Transaction(
             amount=Decimal('30.00'),
             description="Expense 1",
             category_id=self.category_id,
             transaction_type=TransactionType.EXPENSE,
-            date=datetime.now() - timedelta(days=3)
+            date=budget_start + timedelta(days=3)
         )
         t2 = Transaction(
             amount=Decimal('20.00'),
             description="Expense 2",
             category_id=self.category_id,
             transaction_type=TransactionType.EXPENSE,
-            date=datetime.now() - timedelta(days=1)
+            date=budget_start + timedelta(days=5)
         )
         
         self.db.create_transaction(t1)
